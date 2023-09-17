@@ -9,7 +9,8 @@ from utils.database import Base
 class ProfileModel(Base):
     __tablename__ = 'profile'
 
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=UUID_4)
+    id = Column(UUID(as_uuid=True), primary_key=True,
+                index=True, default=UUID_4)
     name = Column(String(100), index=True, unique=True)
     is_active = Column(Boolean, default=True)
     created = Column(TIMESTAMP, default=UTC)

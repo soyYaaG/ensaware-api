@@ -9,7 +9,6 @@ class DBProfile:
     def __init__(self, session: Session) -> None:
         self.__session = session
 
-
     async def get_all(self) -> list[Profile]:
         select_profile = (
             select(ProfileModel)
