@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     database_pass: str = os.getenv('DATABASE_PASSWORD')
     database_port: str = os.getenv('DATABASE_PORT')
     database_name: str = os.getenv('DATABASE_NAME')
-    database_api: str = 'mysql+mysqlconnector'
+    database_api: str = 'postgresql+asyncpg'
 
     fernet_pass: str = os.getenv('FERNET_PASS')
     encode: str = 'UTF-8'

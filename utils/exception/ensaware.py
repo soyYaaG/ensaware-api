@@ -1,3 +1,4 @@
+from fastapi import Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -18,7 +19,7 @@ class EnsawareExceptionBase(BaseModel):
 
 
 class EnsawareExceptionHandler:
-    def ensaware(self, enw: EnsawareException):
+    def ensaware(self, _, enw: EnsawareException):
         enw_base = EnsawareExceptionBase(
             code=enw.status_code,
             message=enw.message,
