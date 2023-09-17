@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 
 from authorization.v1.router import router as authorization
+from permission.v1.router import router as permission
 from profile.v1.router import router as profile
 
 from utils.exception.ensaware import EnsawareException, EnsawareExceptionBase, EnsawareExceptionHandler
@@ -28,6 +29,9 @@ app = FastAPI(
         },
         401: {
             'model': EnsawareExceptionBase
+        },
+        500: {
+            'model': EnsawareExceptionBase
         }
     },
 )
@@ -49,6 +53,11 @@ app.include_router(
     tags=['v1 - authorization']
 )
 
+app.include_router(
+    permission,
+    prefix='/v1/permission',
+    tags=['v1 - permission']
+)
 
 app.include_router(
     profile,

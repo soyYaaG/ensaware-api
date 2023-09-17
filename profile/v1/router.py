@@ -4,9 +4,7 @@ from sqlalchemy.orm import Session
 from profile.v1.crud import DBProfile
 from profile.v1.schema import Profile
 
-from utils import Message, TypeMessage
 from utils.database import get_db
-from utils.exception.ensaware import EnsawareException
 
 
 router = APIRouter(
@@ -33,11 +31,4 @@ async def all(
     ### Return
     - `list[Profile]` Respuesta con los perfiles.
     '''
-    try:
-        return await db_profile(db).get_all()
-    except Exception as ex:
-        raise EnsawareException(
-            status.HTTP_400_BAD_REQUEST,
-            TypeMessage.ERROR.value,
-            str(ex)
-        )
+    return await db_profile(db).get_all()

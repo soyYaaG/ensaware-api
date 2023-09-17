@@ -2,6 +2,8 @@ from sqlalchemy import Boolean, Column, String, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
+from permission.v1.models import PermissionProfileModel
+
 from utils import UTC, UUID_4
 from utils.database import Base
 
@@ -15,3 +17,6 @@ class ProfileModel(Base):
     is_active = Column(Boolean, default=True)
     created = Column(TIMESTAMP, default=UTC)
     modified = Column(TIMESTAMP, default=None)
+
+    permission_profile = relationship(
+        'PermissionProfileModel', back_populates='profile')

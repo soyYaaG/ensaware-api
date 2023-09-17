@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from fastapi import Depends, Request, status
 from sqlalchemy.orm import Session
 
-# from permission.v1.crud import get_permission
+from permission.v1.crud import DBPermission
 
 from authorization.v1.schema import TokenData
 from utils.database import get_db
@@ -22,12 +22,25 @@ class OAuth20(ABC):
     def authentication(self):
         pass
 
-
     @abstractmethod
     def get_data(self, request: Request):
         pass
 
-
     @abstractmethod
     def refresh_token(self, token: str):
         pass
+
+
+class PermissionChecker:
+    def __init__(self, code_name: str) -> None:
+        self.__code_name: str = code_name
+
+    async def __call__(self, db: Session = Depends(get_db), token: TokenData = Depends(Security.get_token)) -> bool:
+        permission = DBPermission(db)
+        query = await permission.get_permission(db, self.__code_name, token.profile)
+
+        if query:
+            return True
+        else:
+            raise EnsawareException(
+                status.HTTP_401_UNAUTHORIZED, TypeMessage.VALIDATION.value, Validate.INVALID_AUTH.value)
