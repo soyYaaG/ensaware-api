@@ -1,10 +1,10 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum, unique
 from uuid import uuid4
 from urllib.parse import ParseResult, urlparse
 
 
-UTC: datetime = datetime.now(timezone.utc)
+UTC: datetime = datetime.now()
 UUID_4: uuid4 = uuid4
 
 
@@ -18,7 +18,7 @@ def replace_url_scheme(url: str):
 
     if scheme == 'http':
         return url.replace('http', 'https')
-    
+
     return url
 
 

@@ -65,3 +65,15 @@ class ReadPermissionProfile(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ReadContentTypePermission(ContentType):
+    permission: list[Permission] | None
+
+    class Config:
+        from_attributes = True
+
+
+class CUDPermission(BaseModel):
+    profile_id: UUID
+    permission_id: UUID
