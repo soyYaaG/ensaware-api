@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from profile.v1.crud import DBProfile
-from profile.v1.schema import Profile
+from profiles.v1.crud import DBProfile
+from profiles.v1.schema import Profile
 
 from utils.database import get_db
 

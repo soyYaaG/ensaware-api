@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 from uuid import UUID
 
-from profile.v1.schema import Profile
+from profiles.v1.schema import Profile
 
 
 class ContentTypeBase(BaseModel):
