@@ -37,6 +37,7 @@ INSERT INTO career (name)
 -- Insert content_type --
 -- ----------------------
 INSERT INTO content_type (model)
+    SELECT 'career' UNION
 	SELECT 'permission' UNION
 	SELECT 'profile' UNION
 	SELECT 'user';
@@ -57,4 +58,8 @@ INSERT INTO permission (content_type_id, code_name, description)
 	SELECT id, CONCAT(model, ':create'), 'Crear perfil' FROM content_type WHERE model = 'profile' UNION
 	SELECT id, CONCAT(model, ':read'), 'Leer perfil' FROM content_type WHERE model = 'profile' UNION
 	SELECT id, CONCAT(model, ':update'), 'Editar perfil' FROM content_type WHERE model = 'profile' UNION
-	SELECT id, CONCAT(model, ':delete'), 'Eliminar perfil' FROM content_type WHERE model = 'profile';
+	SELECT id, CONCAT(model, ':delete'), 'Eliminar perfil' FROM content_type WHERE model = 'profile' UNION
+    SELECT id, CONCAT(model, ':create'), 'Crear carrera' FROM content_type WHERE model = 'career' UNION
+	SELECT id, CONCAT(model, ':read'), 'Leer carrera' FROM content_type WHERE model = 'career' UNION
+	SELECT id, CONCAT(model, ':update'), 'Editar carrera' FROM content_type WHERE model = 'career' UNION
+	SELECT id, CONCAT(model, ':delete'), 'Eliminar carrera' FROM content_type WHERE model = 'career';
