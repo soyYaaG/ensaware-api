@@ -24,7 +24,14 @@ def replace_url_scheme(url: str):
 
 @unique
 class Message(Enum):
+    EXPIRED_TOKEN = 'Token expirado.'
+    FAILED_CREATE_JWT = 'Error al crear el token.'
+    INVALID_AUTH = 'No esta autorizado para realizar esta solicitud.'
+    INVALID_JWT = 'Token no valido.'
+    NVALID_PROVIDER = 'Proveedor no valido.'
+    INVALID_REFRESH_TOKEN = 'refresh token no válido.'
     NO_INFORMATION = 'Información no encontrada.'
+    REFRESH_TOKEN_FAILED = 'No se puedo actulizar el token. Asegúrese de enviar el refresh token correcto.'
 
 
 @unique

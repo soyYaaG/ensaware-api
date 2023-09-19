@@ -49,7 +49,7 @@ def login_provider(
     status_code=status.HTTP_307_TEMPORARY_REDIRECT,
     response_model=Token
 )
-def login_provider_auth(
+async def login_provider_auth(
     request: Request,
     provider: Provider,
     db: Session = Depends(get_db)
@@ -70,7 +70,8 @@ def login_provider_auth(
     if settings.debug == 0:
         url = replace_url_scheme(url)
 
-    redirect_url: str = SelectProvider.select(provider, url, db).get_data(request)
+    redirect_url: str = await SelectProvider.select(
+        provider, url, db).get_data(request)
 
     return RedirectResponse(redirect_url)
 
@@ -80,7 +81,7 @@ def login_provider_auth(
     response_model=Token,
     status_code=status.HTTP_200_OK,
 )
-def refresh_token(
+async def refresh_token(
     provider: Provider,
     refresh_token: RefreshToken,
     db: Session = Depends(get_db)
@@ -91,8 +92,4 @@ def refresh_token(
     ### Return
     - `Token class` Respuesta del proveedor donde se entrege el token, token_type y refresh_token.
     '''
-    try:
-        return SelectProvider.select(provider, '', db).refresh_token(refresh_token.refresh_token)
-    except EnsawareException as enw:
-        logging.exception(enw)
-        raise enw
+    return await SelectProvider.select(provider, '', db).refresh_token(refresh_token.refresh_token)

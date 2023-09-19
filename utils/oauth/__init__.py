@@ -6,9 +6,9 @@ from sqlalchemy.orm import Session
 from permission.v1.crud import DBPermission
 
 from authorization.v1.schema import TokenData
+from utils import Message, TypeMessage
 from utils.database import get_db
 from utils.encryption import Encryption
-from utils.exception import TypeMessage, Validate
 from utils.exception.ensaware import EnsawareException
 from utils.oauth.security import Security
 
@@ -43,4 +43,4 @@ class PermissionChecker:
             return True
         else:
             raise EnsawareException(
-                status.HTTP_401_UNAUTHORIZED, TypeMessage.VALIDATION.value, Validate.INVALID_AUTH.value)
+                status.HTTP_401_UNAUTHORIZED, TypeMessage.VALIDATION.value, Message.INVALID_AUTH.value)
