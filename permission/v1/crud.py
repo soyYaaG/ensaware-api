@@ -23,6 +23,8 @@ class DBPermission:
             self.__session.add(add_permission)
             await self.__session.commit()
             await self.__session.refresh(add_permission)
+
+            return add_permission
         except Exception as ex:
             raise EnsawareException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, str(ex))
