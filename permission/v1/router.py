@@ -5,15 +5,18 @@ from permission.v1.crud import DBPermission
 from permission.v1.schema import CUDPermission, PermissionProfile, ReadContentTypePermission, ReadPermissionProfile
 
 from utils.database import get_db
+from utils.oauth.security import Security
 
 
 router = APIRouter(
     dependencies=[
-        Depends(get_db)
+        Depends(get_db),
+        Depends(Security.get_token)
     ]
 )
 
 get_db = router.dependencies[0]
+get_token = router.dependencies[1]
 db_permission = DBPermission
 
 

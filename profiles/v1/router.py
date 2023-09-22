@@ -5,15 +5,18 @@ from profiles.v1.crud import DBProfile
 from profiles.v1.schema import Profile
 
 from utils.database import get_db
+from utils.oauth.security import Security
 
 
 router = APIRouter(
     dependencies=[
-        Depends(get_db)
+        Depends(get_db),
+        Depends(Security.get_token)
     ]
 )
 
 get_db = router.dependencies[0]
+get_token = router.dependencies[1]
 db_profile = DBProfile
 
 
