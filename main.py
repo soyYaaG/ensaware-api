@@ -5,8 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 
 from authorization.v1.router import router as authorization
+from career.v1.router import router as career
 from permission.v1.router import router as permission
-from profile.v1.router import router as profile
+from profiles.v1.router import router as profile
+from user.v1.router import router as user
 
 from utils.exception.ensaware import EnsawareException, EnsawareExceptionBase, EnsawareExceptionHandler
 from utils.settings import Settings
@@ -30,7 +32,7 @@ app = FastAPI(
         401: {
             'model': EnsawareExceptionBase
         },
-        500: {
+        403: {
             'model': EnsawareExceptionBase
         }
     },
@@ -54,6 +56,12 @@ app.include_router(
 )
 
 app.include_router(
+    career,
+    prefix='/v1/career',
+    tags=['v1 - career']
+)
+
+app.include_router(
     permission,
     prefix='/v1/permission',
     tags=['v1 - permission']
@@ -63,4 +71,10 @@ app.include_router(
     profile,
     prefix='/v1/profile',
     tags=['v1 - profile']
+)
+
+app.include_router(
+    user,
+    prefix='/v1/user',
+    tags=['v1 - user']
 )

@@ -3,7 +3,7 @@ from enum import Enum, unique
 from fastapi import status
 from sqlalchemy.orm import Session
 
-from utils.exception import TypeMessage, Validate
+from utils import Message, TypeMessage
 from utils.exception.ensaware import EnsawareException
 from .google import GoogleProvider
 
@@ -19,4 +19,5 @@ class SelectProvider:
         if provider == Provider.GOOGLE:
             return GoogleProvider(url_callback, db)
         else:
-            raise EnsawareException(status.HTTP_400_BAD_REQUEST, TypeMessage.VALIDATION.value, Validate.INVALID_PROVIDER.value)
+            raise EnsawareException(
+                status.HTTP_400_BAD_REQUEST, TypeMessage.VALIDATION.value, Message.INVALID_PROVIDER.value)

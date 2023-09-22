@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from utils.database import get_db
+from utils.oauth.security import Security
 
 from user.v1.crud import DBUser
 from user.v1.schema import UserRead
@@ -9,11 +10,13 @@ from user.v1.schema import UserRead
 
 router = APIRouter(
     dependencies=[
-        Depends(get_db)
+        Depends(get_db),
+        Depends(Security.get_token)
     ]
 )
 
 get_db = router.dependencies[0]
+get_token = router.dependencies[1]
 db_user = DBUser
 
 
@@ -32,4 +35,4 @@ async def get_user_id(
     ### Return
     - `UserRead` Respuesta con la información del usuario
     '''
-    return db_user(db).get_user_id(id)
+    return await db_user(db).get_user_id(id, True)
