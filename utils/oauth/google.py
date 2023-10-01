@@ -69,8 +69,6 @@ class GoogleProvider(OAuth20):
         return flow
 
     async def __get_token(self, token: str) -> tuple[dict, User | None]:
-        import time
-        time.sleep(60)
         new_token = id_token.verify_token(
             id_token=token,
             request=requests.Request(),
