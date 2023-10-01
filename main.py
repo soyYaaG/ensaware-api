@@ -34,6 +34,9 @@ app = FastAPI(
         },
         403: {
             'model': EnsawareExceptionBase
+        },
+        500: {
+            'model': EnsawareExceptionBase
         }
     },
 )
