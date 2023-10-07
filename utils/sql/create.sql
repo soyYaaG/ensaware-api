@@ -1,22 +1,17 @@
 /*
-  _____                                        
- | ____|_ __  ___  __ ___      ____ _ _ __ ___ 
+  _____
+ | ____|_ __  ___  __ ___      ____ _ _ __ ___
  |  _| | '_ \/ __|/ _` \ \ /\ / / _` | '__/ _ \
  | |___| | | \__ \ (_| |\ V  V / (_| | | |  __/
  |_____|_| |_|___/\__,_| \_/\_/ \__,_|_|  \___|
-                                               
-*/
 
--- ------------
--- extension --
--- ------------
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+*/
 
 -- ----------------------
 -- Create career table --
 -- ----------------------
 CREATE TABLE IF NOT EXISTS career (
-	id UUID DEFAULT UUID_GENERATE_V4(),
+	id VARCHAR(60) DEFAULT (UUID()),
 	name VARCHAR(100) NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT TRUE,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -30,7 +25,7 @@ CREATE TABLE IF NOT EXISTS career (
 -- Create profile table --
 -- -----------------------
 CREATE TABLE IF NOT EXISTS profile (
-	id UUID DEFAULT UUID_GENERATE_V4(),
+	id VARCHAR(60) DEFAULT (UUID()),
 	name VARCHAR(100) NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT TRUE,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -43,15 +38,15 @@ CREATE TABLE IF NOT EXISTS profile (
 -- --------------------
 -- Create user table --
 -- --------------------
-CREATE TABLE IF NOT EXISTS "user" (
-	id UUID DEFAULT UUID_GENERATE_V4(),
+CREATE TABLE IF NOT EXISTS user (
+	id VARCHAR(60) DEFAULT (UUID()),
 	provider_id VARCHAR(60) NOT NULL,
 	provider VARCHAR(50) NOT NULL,
 	display_name VARCHAR(255) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	picture VARCHAR(255) NULL,
-	profile_id UUID NOT NULL,
-	career_id UUID NULL,
+	profile_id VARCHAR(60) NOT NULL,
+	career_id VARCHAR(60) NULL,
 	refresh_token VARCHAR(255) NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT TRUE,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -64,14 +59,14 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 -- Create indexes
-CREATE INDEX IF NOT EXISTS idx_user_provider ON "user" (provider);
+CREATE INDEX idx_user_provider ON user (provider);
 
 
 -- ----------------------------
 -- Create content_type table --
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS content_type (
-	id UUID DEFAULT UUID_GENERATE_V4(),
+	id VARCHAR(60) DEFAULT (UUID()),
 	model VARCHAR(100) NOT NULL,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	modified TIMESTAMP NULL,
@@ -84,8 +79,8 @@ CREATE TABLE IF NOT EXISTS content_type (
 -- Create permission --
 -- --------------------
 CREATE TABLE IF NOT EXISTS permission (
-	id UUID DEFAULT UUID_GENERATE_V4(),
-	content_type_id UUID NOT NULL,
+	id VARCHAR(60) DEFAULT (UUID()),
+	content_type_id VARCHAR(60) NOT NULL,
 	code_name VARCHAR(255) NOT NULL,
 	description VARCHAR(100) NULL,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -100,9 +95,9 @@ CREATE TABLE IF NOT EXISTS permission (
 -- Create permission_profile --
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS permission_profile (
-	id UUID DEFAULT UUID_GENERATE_V4(),
-	permission_id UUID NOT NULL,
-	profile_id UUID NOT NULL,
+	id VARCHAR(60) DEFAULT (UUID()),
+	permission_id VARCHAR(60) NOT NULL,
+	profile_id VARCHAR(60) NOT NULL,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	modified TIMESTAMP NULL,
 	CONSTRAINT pk_permission_profile_id PRIMARY KEY (id),

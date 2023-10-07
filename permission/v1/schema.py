@@ -1,6 +1,5 @@
 from datetime import datetime
 from pydantic import BaseModel
-from uuid import UUID
 
 from profiles.v1.schema import Profile
 
@@ -13,7 +12,7 @@ class ContentTypeBase(BaseModel):
 
 
 class ContentType(ContentTypeBase):
-    id: UUID
+    id: str
     created: datetime
     modified: datetime | None
 
@@ -22,7 +21,7 @@ class ContentType(ContentTypeBase):
 
 
 class PermissionBase(BaseModel):
-    content_type_id: UUID
+    content_type_id: str
     code_name: str
     description: str
 
@@ -31,7 +30,7 @@ class PermissionBase(BaseModel):
 
 
 class Permission(PermissionBase):
-    id: UUID
+    id: str
     created: datetime
     modified: datetime | None
 
@@ -40,15 +39,15 @@ class Permission(PermissionBase):
 
 
 class PermissionProfileBase(BaseModel):
-    permission_id: UUID
-    profile_id: UUID
+    permission_id: str
+    profile_id: str
 
     class Config:
         from_attributes = True
 
 
 class PermissionProfile(PermissionProfileBase):
-    id: UUID
+    id: str
     created: datetime
     modified: datetime | None
 
@@ -57,7 +56,7 @@ class PermissionProfile(PermissionProfileBase):
 
 
 class ReadPermissionProfile(BaseModel):
-    id: UUID
+    id: str
     permission: Permission
     profile: Profile
     created: datetime
@@ -75,5 +74,5 @@ class ReadContentTypePermission(ContentType):
 
 
 class CUDPermission(BaseModel):
-    profile_id: UUID
-    permission_id: UUID
+    profile_id: str
+    permission_id: str

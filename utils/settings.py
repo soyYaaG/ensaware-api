@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     database_pass: str = os.getenv('DATABASE_PASSWORD')
     database_port: str = os.getenv('DATABASE_PORT')
     database_name: str = os.getenv('DATABASE_NAME')
-    database_api: str = 'postgresql+asyncpg'
+    database_api: str = 'mysql+aiomysql'
 
     fernet_pass: str = os.getenv('FERNET_PASS')
     encode: str = 'UTF-8'
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     jwt_secret_key: str = os.getenv('JWT_SECRET_KEY')
     jwt_expire_minutes: int = int(os.getenv('JWT_EXPIRE_MINUTES'))
 
-    cors_origins: str =  os.getenv('CORS_ORIGINS')
-    cors_methods: str =  os.getenv('CORS_METHODS')
+    cors_origins: str = os.getenv('CORS_ORIGINS')
+    cors_methods: str = os.getenv('CORS_METHODS')
 
     callback_url_front: str = os.getenv('CALLBACK_URL_FRONT')

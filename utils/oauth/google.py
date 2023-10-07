@@ -69,52 +69,66 @@ class GoogleProvider(OAuth20):
         return flow
 
     async def __get_token(self, token: str) -> tuple[dict, User | None]:
-        new_token = id_token.verify_token(
-            id_token=token,
-            request=requests.Request(),
-            audience=self.__settings.client_id_google,
-            clock_skew_in_seconds=10
-        )
+        try:
+            new_token = id_token.verify_token(
+                id_token=token,
+                request=requests.Request(),
+                audience=self.__settings.client_id_google,
+                clock_skew_in_seconds=10
+            )
 
-        email: str = new_token.get('email', None)
-        user: User = await self.__db_user.get_user_email(email)
+            email: str = new_token.get('email', None)
+            user: User = await self.__db_user.get_user_email(email)
 
-        return new_token, user
+            return new_token, user
+        except Exception as ex:
+            raise EnsawareException(
+                status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
 
     def authentication(self) -> tuple[str, str]:
-        flow = self.__get_config()
+        try:
+            flow = self.__get_config()
 
-        return flow.authorization_url(
-            access_type='offline',
-            prompt='consent',
-            include_granted_scopes='true',
-        )
+            return flow.authorization_url(
+                access_type='offline',
+                prompt='consent',
+                include_granted_scopes='true',
+            )
+        except Exception as ex:
+            raise EnsawareException(
+                status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
 
     async def get_data(self, request: Request) -> str:
-        flow = self.__get_config()
-        flow.fetch_token(
-            authorization_response=str(request.url),
-        )
+        try:
+            flow = self.__get_config()
+            flow.fetch_token(
+                authorization_response=str(request.url),
+            )
 
-        credentials = flow.credentials
+            credentials = flow.credentials
 
-        token, get_user = await self.__get_token(credentials.id_token)
+            token, get_user = await self.__get_token(credentials.id_token)
 
-        if not get_user:
-            get_user = await self.__create_user(token, credentials)
+            if not get_user:
+                get_user = await self.__create_user(token, credentials)
 
-        get_user.refresh_token = self.encryption.encrypt(
-            credentials._refresh_token)
-        get_user.picture = token.get('picture', None)
-        get_user: User = await self.__db_user.update_user_id(get_user.id, get_user)
+            get_user.refresh_token = self.encryption.encrypt(
+                credentials._refresh_token)
+            get_user.picture = token.get('picture', None)
+            get_user: User = await self.__db_user.update_user_id(get_user.id, get_user)
 
-        token_data: Token = self.__security.jwt_encode(get_user)
-        params: str = ''
+            token_data: Token = self.__security.jwt_encode(get_user)
+            params: str = ''
 
-        for key, value in token_data.model_dump().items():
-            params += f'&{key}={value}'
+            for key, value in token_data.model_dump().items():
+                params += f'&{key}={value}'
 
-        return f'{self.__settings.callback_url_front}?proyect=ensaware{params}'
+            return f'{self.__settings.callback_url_front}?proyect=ensaware{params}'
+        except EnsawareException as enw:
+            raise enw
+        except Exception as ex:
+            raise EnsawareException(
+                status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
 
     async def refresh_token(self, token: str) -> Token:
         refresh_token = ''

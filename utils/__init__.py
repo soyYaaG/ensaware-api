@@ -5,7 +5,7 @@ from urllib.parse import ParseResult, urlparse
 
 
 UTC: datetime = datetime.now()
-UUID_4: uuid4 = uuid4
+UUID_4: str = str(uuid4())
 
 
 def replace_url_scheme(url: str):

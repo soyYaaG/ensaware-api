@@ -1,16 +1,15 @@
-from sqlalchemy import Column, ForeignKey, String, TIMESTAMP
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, ForeignKey, String, TIMESTAMP, text
 from sqlalchemy.orm import relationship
 
-from utils import UTC, UUID_4
+from utils import UTC
 from utils.database import Base
 
 
 class ContentTypeModel(Base):
     __tablename__ = 'content_type'
 
-    id = Column(UUID(as_uuid=True), primary_key=True,
-                index=True, default=UUID_4)
+    id = Column(String(60), primary_key=True,
+                index=True, server_default=text('UUID()'))
     model = Column(String(100), index=True, unique=True)
     created = Column(TIMESTAMP, default=UTC)
     modified = Column(TIMESTAMP, default=None)
@@ -21,9 +20,9 @@ class ContentTypeModel(Base):
 class PermissionModel(Base):
     __tablename__ = 'permission'
 
-    id = Column(UUID(as_uuid=True), primary_key=True,
-                index=True, default=UUID_4)
-    content_type_id = Column(UUID(as_uuid=True), ForeignKey(
+    id = Column(String(60), primary_key=True,
+                index=True, server_default=text('UUID()'))
+    content_type_id = Column(String(60), ForeignKey(
         'content_type.id'), nullable=False)
     code_name = Column(String(255), index=True, unique=True)
     description = Column(String(1000), nullable=True)
@@ -39,11 +38,11 @@ class PermissionModel(Base):
 class PermissionProfileModel(Base):
     __tablename__ = 'permission_profile'
 
-    id = Column(UUID(as_uuid=True), primary_key=True,
-                index=True, default=UUID_4)
-    permission_id = Column(UUID(as_uuid=True), ForeignKey(
+    id = Column(String(60), primary_key=True,
+                index=True, server_default=text('UUID()'))
+    permission_id = Column(String(60), ForeignKey(
         'permission.id'), nullable=False)
-    profile_id = Column(UUID(as_uuid=True), ForeignKey(
+    profile_id = Column(String(60), ForeignKey(
         'profile.id'), nullable=False)
     created = Column(TIMESTAMP, default=UTC)
     modified = Column(TIMESTAMP, default=None)

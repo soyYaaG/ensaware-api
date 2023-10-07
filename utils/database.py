@@ -12,7 +12,8 @@ ENGINE = create_async_engine(
     SQLALCHEMY_DATABASE_URL
 )
 
-SessionLocal = async_sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
+SessionLocal = async_sessionmaker(
+    autocommit=False, autoflush=False, bind=ENGINE)
 
 Base = declarative_base()
 

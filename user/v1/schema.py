@@ -1,6 +1,5 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr
-from uuid import UUID
 
 from career.v1.schema import Career
 from profiles.v1.schema import Profile
@@ -12,7 +11,7 @@ class UserBase(BaseModel):
     display_name: str
     email: EmailStr
     picture: str | None
-    profile_id: UUID
+    profile_id: str
     refresh_token: str
 
     class Config:
@@ -20,8 +19,8 @@ class UserBase(BaseModel):
 
 
 class User(UserBase):
-    id: UUID
-    career_id: UUID | None
+    id: str
+    career_id: str | None
     is_active: bool
     created: datetime
     modified: datetime | None
@@ -35,7 +34,7 @@ class UserRead(BaseModel):
     created: datetime
     display_name: str
     email: EmailStr
-    id: UUID
+    id: str
     is_active: bool
     modified: datetime | None
     provider_id: str

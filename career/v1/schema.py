@@ -1,6 +1,5 @@
 from datetime import datetime
 from pydantic import BaseModel
-from uuid import UUID
 
 
 class CareerBase(BaseModel):
@@ -11,7 +10,7 @@ class CareerBase(BaseModel):
 
 
 class Career(CareerBase):
-    id: UUID
+    id: str
     is_active: bool
     created: datetime
     modified: datetime | None
