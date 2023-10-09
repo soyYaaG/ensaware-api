@@ -6,7 +6,7 @@ from sqlalchemy.orm import selectinload, Session
 from user.v1.models import UserModel
 from user.v1.schema import UserBase, User, UserRead
 
-from utils import Message, TypeMessage, UTC
+from utils import Message, TypeMessage, UTC, UUID_4
 from utils.exception.ensaware import EnsawareException
 
 
@@ -26,6 +26,7 @@ class DBUser:
     async def add_user(self, user: UserBase, return_user_read_model: bool = False) -> UserRead | User:
         try:
             add_user = UserModel(**user.model_dump())
+            add_user.id = UUID_4
 
             self.__session.add(add_user)
             await self.__session.commit()

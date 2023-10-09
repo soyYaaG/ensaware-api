@@ -19,3 +19,4 @@ google-auth-httplib2
 requests
 authlib
 fastapi-pagination
+greenlet

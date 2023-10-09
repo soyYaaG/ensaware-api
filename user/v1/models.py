@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from career.v1.models import CareerModel
 from profiles.v1.models import ProfileModel
-from utils import UTC
+from utils import UTC, UUID_4
 from utils.database import Base
 
 
@@ -11,7 +11,7 @@ class UserModel(Base):
     __tablename__ = 'user'
 
     id = Column(String(60), primary_key=True,
-                index=True, server_default=text('UUID()'))
+                index=True, default=UUID_4)
     provider_id = Column(String(60), unique=True, index=True)
     provider = Column(String(50), nullable=False, index=True)
     display_name = Column(String(255), nullable=False)
