@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/soyYaaG/ensaware-api'
+                git branch: 'main', url: 'https://github.com/soyYaaG/ensaware-api.git'
             }
         }
 
