@@ -2,5 +2,7 @@ services:
   ensaware-api:
     build:
         dockerfile: Dockerfile
+        context: .
+    container_name: ensaware-api
     ports:
       - "8081:8081"
