@@ -11,12 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    try {
-                        sh 'docker compose build'
-                        sh 'docker compose up -d'
-                    } catch (Exception e) {
-                        echo 'Exception occurred: ' + e.toString()
-                    }
+                    sh 'docker-compose build'
                 }
             }
         }
@@ -24,13 +19,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    try {
-                        sh 'docker-compose up -d'
-                    } catch (Exception e) {
-                        echo 'Exception occurred: ' + e.toString()
-                    }
+                    sh 'docker-compose up -d'
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker-compose down -v'
         }
     }
 }
