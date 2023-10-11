@@ -3,13 +3,13 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            step {
+            steps {
                 git branch: 'main', url: 'https://github.com/soyYaaG/ensaware-api'
             }
         }
 
         stage('Build') {
-            step {
+            steps {
                 script {
                     try {
                         sh 'docker-compose build'
@@ -22,7 +22,7 @@ pipeline {
         }
 
         stage('Deploy') {
-            step {
+            steps {
                 script {
                     try {
                         sh 'docker-compose up -d'
