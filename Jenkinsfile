@@ -11,6 +11,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    sh 'docker image ls'
+                    sh 'docker-compose --version'
                     sh 'docker-compose build'
                 }
             }
