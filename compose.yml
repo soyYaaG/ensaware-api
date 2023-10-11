@@ -1,0 +1,5 @@
+services:
+  ensaware-api:
+    build: .
+    ports:
+      - "8081:8081"
