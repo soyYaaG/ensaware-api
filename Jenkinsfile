@@ -12,8 +12,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker-compose build'
-                        sh 'docker-compose up -d'
+                        sh 'docker compose build'
+                        sh 'docker compose up -d'
                     } catch (Exception e) {
                         echo 'Exception occurred: ' + e.toString()
                     }
