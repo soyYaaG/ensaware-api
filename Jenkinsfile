@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     echo 'prueba'
-                    sh 'docker image ls'
+                    sh 'docker --version'
                     sh 'docker-compose --version'
                     sh 'docker-compose build'
                 }
