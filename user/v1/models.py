@@ -3,15 +3,15 @@ from sqlalchemy.orm import relationship
 
 from career.v1.models import CareerModel
 from profiles.v1.models import ProfileModel
-from utils import UTC, UUID_4
 from utils.database import Base
+from utils.settings import DefaultValuesModels
 
 
-class UserModel(Base):
+class UserModel(Base, DefaultValuesModels):
     __tablename__ = 'user'
 
     id = Column(String(60), primary_key=True,
-                index=True, default=UUID_4)
+                index=True, default=DefaultValuesModels.uuid4())
     provider_id = Column(String(60), unique=True, index=True)
     provider = Column(String(50), nullable=False, index=True)
     display_name = Column(String(255), nullable=False)
@@ -23,7 +23,7 @@ class UserModel(Base):
         'career.id'), nullable=True)
     refresh_token = Column(String(255), unique=True, index=True)
     is_active = Column(Boolean, default=True)
-    created = Column(TIMESTAMP, default=UTC)
+    created = Column(TIMESTAMP, default=DefaultValuesModels.utc())
     modified = Column(TIMESTAMP, default=None)
 
     profile = relationship('ProfileModel')

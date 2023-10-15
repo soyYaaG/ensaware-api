@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from fastapi import status
 from sqlalchemy import update
 from sqlalchemy.future import select
@@ -6,13 +8,15 @@ from sqlalchemy.orm import selectinload, Session
 from user.v1.models import UserModel
 from user.v1.schema import UserBase, User, UserRead
 
-from utils import Message, TypeMessage, UTC, UUID_4
+from utils import Message, TypeMessage
 from utils.exception.ensaware import EnsawareException
+from utils.settings import DefaultValuesModels
 
 
 class DBUser:
     def __init__(self, session: Session) -> None:
         self.__session = session
+
 
     def __select(self, return_user_read_model):
         if return_user_read_model:
@@ -23,10 +27,11 @@ class DBUser:
         else:
             return select(UserModel)
 
+
     async def add_user(self, user: UserBase, return_user_read_model: bool = False) -> UserRead | User:
         try:
             add_user = UserModel(**user.model_dump())
-            add_user.id = UUID_4
+            add_user.id = DefaultValuesModels.uuid4()
 
             self.__session.add(add_user)
             await self.__session.commit()
@@ -39,6 +44,7 @@ class DBUser:
         except Exception as ex:
             raise EnsawareException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, str(ex))
+
 
     async def get_user_id(self, id: str, return_user_read_model: bool = False) -> UserRead | User | None:
         try:
@@ -59,6 +65,7 @@ class DBUser:
             raise EnsawareException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, str(ex))
 
+
     async def get_user_email(self, email: str, return_user_read_model: bool = False) -> UserRead | User | None:
         try:
             select_user = self.__select(return_user_read_model).filter(
@@ -78,6 +85,7 @@ class DBUser:
             raise EnsawareException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, str(ex))
 
+
     async def update_user_id(self, id: str, update_user: User, return_user_read_model: bool = False) -> UserRead | User:
         try:
             select_user = await self.get_user_id(id)
@@ -86,7 +94,7 @@ class DBUser:
                 raise EnsawareException(
                     status.HTTP_404_NOT_FOUND, TypeMessage.VALIDATION.value, Message.NO_INFORMATION.value)
 
-            update_user.modified = UTC
+            update_user.modified = DefaultValuesModels.utc()
 
             query_update = update(UserModel).execution_options(synchronize_session=False).filter(
                 UserModel.id == id, UserModel.is_active).values(update_user.model_dump())

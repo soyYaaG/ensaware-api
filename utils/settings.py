@@ -1,4 +1,6 @@
+from datetime import datetime
 import os
+from uuid import uuid4
 
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
@@ -30,3 +32,14 @@ class Settings(BaseSettings):
     cors_methods: str = os.getenv('CORS_METHODS')
 
     callback_url_front: str = os.getenv('CALLBACK_URL_FRONT')
+
+
+class DefaultValuesModels:
+    @staticmethod
+    def utc() -> datetime:
+        return datetime.utcnow()
+
+
+    @staticmethod
+    def uuid4() -> str:
+        return str(uuid4())

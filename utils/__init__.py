@@ -4,10 +4,6 @@ from uuid import uuid4
 from urllib.parse import ParseResult, urlparse
 
 
-UTC: datetime = datetime.now()
-UUID_4: str = str(uuid4())
-
-
 def replace_url_scheme(url: str):
     _urlparse: "ParseResult" = urlparse(url)
     scheme: str = _urlparse.scheme.lower()
