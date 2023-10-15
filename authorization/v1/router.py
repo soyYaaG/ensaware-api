@@ -18,6 +18,7 @@ settings = Settings()
 
 @router.get(
     '/{provider}',
+    include_in_schema=False,
     status_code=status.HTTP_307_TEMPORARY_REDIRECT
 )
 def login_provider(
@@ -46,6 +47,7 @@ def login_provider(
 
 @router.get(
     '/{provider}/auth',
+    include_in_schema=False,
     status_code=status.HTTP_307_TEMPORARY_REDIRECT,
     response_model=Token
 )
