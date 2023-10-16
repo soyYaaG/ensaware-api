@@ -20,8 +20,8 @@ pipeline {
                 script {
                     try {
                         sh 'docker stop ${container_name}'
-                        sh 'docker rm ${container_name}'
-                        sh 'docker rmi ${image_name}:${tag_image}'
+                        sh 'docker rm -f ${container_name}'
+                        sh 'docker rmi -f ${image_name}:${tag_image}'
                     } catch (Exception e) {
                         echo 'Exception occurred: ' + e.toString()
                     }
