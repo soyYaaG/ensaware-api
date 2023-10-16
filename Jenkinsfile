@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'container_name', defaultValue: 'ensaware-api', description: 'Nombre del contenedor de docker.')
+        string(name: 'image_name', defaultValue: 'ensaware-api-img', description: 'Nombre de la imagene docker.')
+        string(name: 'tag_image', defaultValue: 'lts', description: 'Tag de la imagen de la página.')
+        string(name: 'container_port', defaultValue: '8081', description: 'Puerto que usa el contenedor')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -11,7 +18,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker-compose build'
+                    sh 'docker stop ${container_name}'
+                    sh 'docker rm ${container_name}'
+                    sh 'docker rmi ${image_name}:${tag_image}'
+                    sh 'docker build -t ${image_name}:${tag_image} .'
                 }
             }
         }
@@ -19,15 +29,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker-compose up -d'
+                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image}'
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            sh 'docker-compose down -v'
         }
     }
 }
