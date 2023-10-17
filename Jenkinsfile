@@ -17,7 +17,7 @@ pipeline {
 
         stage ('Environment') {
             steps {
-                scripts {
+                script {
                     sh 'env > .env'
                 }
             }
