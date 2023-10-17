@@ -15,6 +15,14 @@ pipeline {
             }
         }
 
+        stage ('Environment') {
+            steps {
+                scripts {
+                    sh 'env > .env'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
@@ -33,7 +41,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image}'
+                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image} --env-file .env'
                 }
             }
         }
