@@ -1,3 +1,5 @@
+def path_env_file = ""
+
 pipeline {
     agent any
 
@@ -19,6 +21,7 @@ pipeline {
             steps {
                 script {
                     sh 'env > .env'
+                    path_env_file = pwd()
                 }
             }
         }
@@ -26,6 +29,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+
                     try {
                         sh 'docker stop ${container_name}'
                         sh 'docker rm -f ${container_name}'
@@ -41,7 +45,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image} --env-file ./.env'
+                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image} --env-file ${path_env_file}/.env'
                 }
             }
         }
