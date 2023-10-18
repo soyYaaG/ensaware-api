@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image} --env-file .env'
+                    sh 'docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image} --env-file ./.env'
                 }
             }
         }
