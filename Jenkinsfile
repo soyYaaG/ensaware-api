@@ -46,7 +46,7 @@ pipeline {
             steps {
                 echo "${path_env_file}"
                 script {
-                    sh "docker run -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image} --env-file ${path_env_file}/.env"
+                    sh "docker run --env-file ${path_env_file}/.env -d -p ${container_port}:8081 --name ${container_name} ${image_name}:${tag_image}"
                 }
             }
         }
