@@ -91,6 +91,6 @@ async def refresh_token(
     Actualizar token vencido.
 
     ### Return
-    - `Token class` Respuesta del proveedor donde se entrege el token, token_type y refresh_token.
+    - `Token` Respuesta del proveedor donde se entrege el token, token_type y refresh_token.
     '''
     return await SelectProvider.select(provider, '', db).refresh_token(refresh_token.refresh_token)
