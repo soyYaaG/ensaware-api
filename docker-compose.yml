@@ -1,0 +1,21 @@
+version: '3'
+services:
+    ensaware-api:
+        build: .
+        restart: always
+
+    nginx:
+        image: nginx:latest
+        expose:
+            - "80"
+        restart: always
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - ensaware-api
+            - nginx-proxy
+        environment:
+            VIRTUAL_HOST: api.ensaware.yaag.pro,www.api.ensaware.yaag.pro
+            VIRTUAL_PORT: 80
+            LETSENCRYPT_HOST: api.ensaware.yaag.pro
+            LETSENCRYPT_EMAIL: ensaware@yaag.pro
