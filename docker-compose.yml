@@ -13,7 +13,6 @@ services:
             - ./nginx.conf:/etc/nginx/nginx.conf
         depends_on:
             - ensaware-api
-            - be328ba448df
         environment:
             VIRTUAL_HOST: api.ensaware.yaag.pro,www.api.ensaware.yaag.pro
             VIRTUAL_PORT: 80
