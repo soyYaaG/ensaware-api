@@ -3,7 +3,7 @@ services:
     nginx-ensaware-api:
         image: nginx:latest
         expose:
-            - "8081:8081"
+            - "8081"
         restart: always
         volumes:
             - ./nginx.conf:/etc/nginx/ensaware-api/nginx.conf
@@ -18,3 +18,4 @@ services:
     ensaware-api:
         build: .
         restart: always
+
