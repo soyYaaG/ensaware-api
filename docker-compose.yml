@@ -14,6 +14,8 @@ services:
             VIRTUAL_PORT: 8081
             LETSENCRYPT_HOST: api.ensaware.yaag.pro
             LETSENCRYPT_EMAIL: ensaware@yaag.pro
+        ports:
+            - "8081:8081"
 
     ensaware-api:
         build: .
