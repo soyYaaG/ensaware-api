@@ -123,7 +123,7 @@ class GoogleProvider(OAuth20):
             for key, value in token_data.model_dump().items():
                 params += f'&{key}={value}'
 
-            return f'{self.__settings.callback_url_front}?proyect=ensaware{params}'
+            return f'{self.__settings.callback_url_front}?project=ensaware{params}'
         except EnsawareException as enw:
             raise enw
         except Exception as ex:
