@@ -22,7 +22,7 @@ db_user = DBUser
 
 
 @router.get(
-    '/',
+    '',
     response_model=UserRead,
     status_code=status.HTTP_200_OK,
 )
