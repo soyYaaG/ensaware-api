@@ -6,7 +6,7 @@ from utils.oauth.security import Security
 
 from authorization.v1.schema import TokenData
 from user.v1.crud import DBUser
-from user.v1.schema import UserRead
+from user.v1.schema import UserRead, UserUpdate
 
 
 router = APIRouter(
@@ -49,9 +49,28 @@ async def get_user_id(
     db: Session = get_db
 ):
     '''
-    Obtener la información de usuario en especifico.
+    Obtener la información de un usuario en especifico.
 
     ### Return
     - `UserRead` Respuesta con la información del usuario
     '''
     return await db_user(db).get_user_id(id, True)
+
+
+@router.patch(
+    '',
+    response_model=UserRead,
+    status_code=status.HTTP_200_OK
+)
+async def update_career(
+    update_career: UserUpdate,
+    token: TokenData = get_token,
+    db: Session = get_db
+):
+    '''
+    Actualizar la carrera del usuario que inicio sesión.
+
+     ### Return
+    - `UserRead` Respuesta con la información del usuario
+    '''
+    return await db_user(db).update_career_id(token.sub, update_career, True)
