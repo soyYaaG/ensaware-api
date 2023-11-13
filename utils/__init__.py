@@ -29,6 +29,11 @@ class Message(Enum):
     NO_INFORMATION = 'Información no encontrada.'
     REFRESH_TOKEN_FAILED = 'No se puedo actulizar el token. Asegúrese de enviar el refresh token correcto.'
 
+    ERROR_ADD_USER = "Ha ocurrido un error al crear el usuario."
+    ERROR_GET_USER = "Ha ocorrido un error al obtener la información del usuario."
+    ERROR_UPDATE_USER = "Ha ocorrido un error al actualizar la información del usuario."
+    ERROR_UPDATE_USER_CAREER = "Ha ocorrido un error al actualizar la carrera del usuario."
+
 
 @unique
 class TypeMessage(Enum):
