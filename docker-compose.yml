@@ -1,8 +1,8 @@
 version: '3'
 services:
-    ensaware-api:
+    ensaware-api-dev:
         build: .
         ports:
-            - "8081:8081"
+            - "8082:8082"
         restart: always
 
