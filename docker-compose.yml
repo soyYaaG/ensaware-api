@@ -5,4 +5,3 @@ services:
         ports:
             - "8082:8082"
         restart: always
-
