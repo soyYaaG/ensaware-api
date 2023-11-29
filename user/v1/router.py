@@ -46,6 +46,7 @@ async def get_user(
 )
 async def get_user_id(
     id: str,
+    token: TokenData = get_token,
     db: Session = get_db
 ):
     '''

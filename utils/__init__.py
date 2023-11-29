@@ -29,6 +29,9 @@ class Message(Enum):
     NO_INFORMATION = 'Información no encontrada.'
     REFRESH_TOKEN_FAILED = 'No se puedo actulizar el token. Asegúrese de enviar el refresh token correcto.'
 
+    ERROR_ADD_CAREER = "Ha ocurrido un error al crear la carrera."
+    ERROR_NOT_FOUND_CAREER = "Ha ocurrido un error al obtener la información de la cerrera."
+
     ERROR_ADD_USER = "Ha ocurrido un error al crear el usuario."
     ERROR_GET_USER = "Ha ocorrido un error al obtener la información del usuario."
     ERROR_UPDATE_USER = "Ha ocorrido un error al actualizar la información del usuario."
