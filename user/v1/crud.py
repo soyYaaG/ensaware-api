@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from fastapi import status
 from sqlalchemy import update
 from sqlalchemy.future import select
@@ -18,7 +16,7 @@ class DBUser:
         self.__session = session
 
 
-    def __select(self, return_user_read_model: bool) -> UserRead | User:
+    def __select(self, return_user_read_model: bool):
         if return_user_read_model:
             return select(UserModel).options(
                 selectinload(UserModel.profile),
@@ -89,6 +87,16 @@ class DBUser:
                 return User.model_validate(result)
         except EnsawareException as enw:
             raise enw
+        except:
+            raise EnsawareException(
+                status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.ERROR_GET_USER.value)
+
+
+    async def get_all(self, return_user_read_model: bool = False):
+        try:
+            select_user = self.__select(return_user_read_model).filter(UserModel.is_active).order_by(UserModel.created.desc())
+
+            return select_user
         except:
             raise EnsawareException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.ERROR_GET_USER.value)

@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, status
+from fastapi_pagination.links import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 
 from utils.database import get_db
@@ -56,6 +58,26 @@ async def get_user_id(
     - `UserRead` Respuesta con la información del usuario
     '''
     return await db_user(db).get_user_id(id, True)
+
+
+@router.get(
+    '/see/all',
+    response_model=Page[UserRead],
+    status_code=status.HTTP_200_OK,
+)
+async def see_all_users(
+    token: TokenData = get_token,
+    db: Session = get_db
+):
+    '''
+    Obtener la información de un usuario en especifico.
+
+    ### Return
+    - `Page[UserRead]` Respuesta con la información del usuario
+    '''
+    result = await db_user(db).get_all(True)
+    return await paginate(db, result)
+
 
 
 @router.patch(
