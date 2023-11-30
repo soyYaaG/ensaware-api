@@ -79,7 +79,6 @@ async def see_all_users(
     return await paginate(db, result)
 
 
-
 @router.patch(
     '',
     response_model=UserRead,
@@ -97,3 +96,23 @@ async def update_career(
     - `UserRead` Respuesta con la información del usuario
     '''
     return await db_user(db).update_career_id(token.sub, update_career, True)
+
+
+@router.patch(
+    '/{id}',
+    response_model=UserRead,
+    status_code=status.HTTP_200_OK
+)
+async def update_career(
+    id: str,
+    update_career: UserUpdate,
+    token: TokenData = get_token,
+    db: Session = get_db
+):
+    '''
+    Actualizar la carrera del usuario que inicio sesión.
+
+     ### Return
+    - `UserRead` Respuesta con la información del usuario
+    '''
+    return await db_user(db).update_career_id(id, update_career, True)
