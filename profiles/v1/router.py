@@ -21,7 +21,7 @@ db_profile = DBProfile
 
 
 @router.get(
-    '/',
+    '',
     response_model=list[Profile],
     status_code=status.HTTP_200_OK
 )
