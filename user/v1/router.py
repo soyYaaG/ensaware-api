@@ -23,6 +23,21 @@ get_token = router.dependencies[1]
 db_user = DBUser
 
 
+@router.delete(
+    '/{id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def delete_career(
+    id: str,
+    token: TokenData = get_token,
+    db: Session = get_db
+):
+    '''
+    Eliminar usuario
+    '''
+    return await db_user(db).delete_id(id)
+
+
 @router.get(
     '',
     response_model=UserRead,

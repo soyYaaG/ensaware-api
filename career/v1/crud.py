@@ -59,7 +59,7 @@ class DBCareer:
             await self.__session.commit()
         except EnsawareException as enw:
             raise enw
-        except Exception as ex:
+        except:
             raise EnsawareException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.ERROR_NOT_FOUND_CAREER.value)
 

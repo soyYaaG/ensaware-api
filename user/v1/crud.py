@@ -52,6 +52,29 @@ class DBUser:
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.ERROR_ADD_USER.value)
 
 
+    async def delete_id(self, id: str) -> None:
+        try:
+            select_user = (
+                select(UserModel)
+                .filter(UserModel.id == id, UserModel.is_active)
+            )
+
+            result = await self.__session.execute(select_user)
+            select_user = result.scalar()
+
+            if not select_user:
+                raise EnsawareException(
+                    status.HTTP_404_NOT_FOUND, TypeMessage.ERROR.value, Message.ERROR_GET_USER.value)
+
+            await self.__session.delete(select_user)
+            await self.__session.commit()
+        except EnsawareException as enw:
+            raise enw
+        except:
+            raise EnsawareException(
+                status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.ERROR_GET_USER.value)
+
+
     async def get_user_id(self, id: str, return_user_read_model: bool = False) -> UserRead | User | None:
         try:
             select_user = self.__select(return_user_read_model).filter(
