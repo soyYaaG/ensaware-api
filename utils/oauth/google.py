@@ -50,6 +50,7 @@ class GoogleProvider(OAuth20):
 
         return await self.__db_user.add_user(user_base)
 
+
     def __get_config(self) -> Flow:
         flow = Flow.from_client_config(
             client_config={
@@ -68,6 +69,7 @@ class GoogleProvider(OAuth20):
 
         return flow
 
+
     async def __get_token(self, token: str) -> tuple[dict, User | None]:
         try:
             new_token = id_token.verify_token(
@@ -78,12 +80,16 @@ class GoogleProvider(OAuth20):
             )
 
             email: str = new_token.get('email', None)
-            user: User = await self.__db_user.get_user_email(email)
+            try:
+                user: User = await self.__db_user.get_user_email(email)
+            except:
+                user = None
 
             return new_token, user
         except Exception as ex:
             raise EnsawareException(
                 status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
+
 
     def authentication(self) -> tuple[str, str]:
         try:
@@ -97,6 +103,7 @@ class GoogleProvider(OAuth20):
         except Exception as ex:
             raise EnsawareException(
                 status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
+
 
     async def get_data(self, request: Request) -> str:
         try:
@@ -129,6 +136,7 @@ class GoogleProvider(OAuth20):
         except Exception as ex:
             raise EnsawareException(
                 status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
+
 
     async def refresh_token(self, token: str) -> Token:
         refresh_token = ''
