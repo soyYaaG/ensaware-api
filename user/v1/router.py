@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Response, status
 from fastapi_pagination.links import Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
@@ -58,13 +58,14 @@ async def get_user(
 
 @router.get(
     '/{id}',
-    response_model=UserRead,
+    response_model=UserRead | None,
     status_code=status.HTTP_200_OK,
 )
 async def get_user_id(
     id: str,
+    response: Response,
     token: TokenData = get_token,
-    db: Session = get_db
+    db: Session = get_db,
 ):
     '''
     Obtener la información de un usuario en especifico.
@@ -72,7 +73,10 @@ async def get_user_id(
     ### Return
     - `UserRead` Respuesta con la información del usuario
     '''
-    return await db_user(db).get_user_id(id, True)
+    result = await db_user(db).get_user_id(id, True)
+    if not result:
+        response.status_code = status.HTTP_204_NO_CONTENT
+    return result
 
 
 @router.get(
