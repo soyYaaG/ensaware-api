@@ -146,13 +146,17 @@ class DBUser:
                 status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.ERROR_UPDATE_USER.value)
 
 
-    async def update_career_id(self, id: str, update_career: UserUpdate, return_user_read_model: bool = False) -> UserRead | User:
+    async def update_career_id(self, id: str, update_user: UserUpdate, return_user_read_model: bool = False) -> UserRead | User:
         try:
             select_user = await self.get_user_id(id)
             self.__validate(select_user)
 
             select_user.modified = DefaultValuesModels.utc()
-            select_user.career_id = update_career.career_id
+            if update_user.career_id:
+                select_user.career_id = update_user.career_id
+
+            if update_user.profile_id:
+                select_user.profile_id = update_user.profile_id
 
             query_update = update(UserModel).execution_options(synchronize_session=False).filter(
                 UserModel.id == id, UserModel.is_active).values(select_user.model_dump())

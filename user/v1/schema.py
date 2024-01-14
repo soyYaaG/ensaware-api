@@ -47,4 +47,5 @@ class UserRead(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    career_id: str | None
+    career_id: str | None = None
+    profile_id: str | None = None

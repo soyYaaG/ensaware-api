@@ -122,9 +122,9 @@ async def update_career(
     response_model=UserRead,
     status_code=status.HTTP_200_OK
 )
-async def update_career(
+async def update_user(
     id: str,
-    update_career: UserUpdate,
+    update_user: UserUpdate,
     token: TokenData = get_token,
     db: Session = get_db
 ):
@@ -134,4 +134,4 @@ async def update_career(
      ### Return
     - `UserRead` Respuesta con la información del usuario
     '''
-    return await db_user(db).update_career_id(id, update_career, True)
+    return await db_user(db).update_career_id(id, update_user, True)
