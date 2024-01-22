@@ -6,7 +6,7 @@ import requests as api_requests
 from sqlalchemy.orm import Session
 
 from authorization.v1.schema import Token
-from domain.v1.router import get_domain
+from domain.v1.crud import DBDomain
 from profiles import ProfileType
 from profiles.v1.crud import DBProfile
 from profiles.v1.schema import Profile
@@ -33,6 +33,7 @@ class GoogleProvider(OAuth20):
         self.__base_url = 'https://oauth2.googleapis.com'
         self.__db_user = DBUser(db)
         self.__db_profile = DBProfile(db)
+        self.__db_domain = DBDomain(db)
         self.__settings = self.encryption._settings
         self.__security = Security()
 
@@ -119,8 +120,9 @@ class GoogleProvider(OAuth20):
 
             email: str = token.get('email', None)
             domain = email.split('@')[1]
+
             try:
-                await get_domain(domain)
+                await self.__db_domain.get_domain(domain)
             except:
                 return f'{self.__settings.callback_url_front_error}?error=domain'
 
