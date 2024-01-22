@@ -53,6 +53,9 @@ async def get_qr_user_id(
     Obtener el código QR del usuario.
     '''
     user = await db_user(db).get_user_id(id, True)
+    if not user:
+        return Response(content=None)
+
     result = QRCode(set_qr_type(QRType.USER, user.id))
     img = result.create()
 
