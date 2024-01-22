@@ -5,7 +5,7 @@ from urllib.parse import ParseResult, urlparse
 
 
 def replace_url_scheme(url: str):
-    _urlparse: "ParseResult" = urlparse(url)
+    _urlparse: 'ParseResult' = urlparse(url)
     scheme: str = _urlparse.scheme.lower()
     hostname: str = _urlparse.hostname.lower()
 
@@ -24,18 +24,26 @@ class Message(Enum):
     FAILED_CREATE_JWT = 'Error al crear el token.'
     INVALID_AUTH = 'No esta autorizado para realizar esta solicitud.'
     INVALID_JWT = 'Token no valido.'
-    NVALID_PROVIDER = 'Proveedor no valido.'
+    INVALID_PROVIDER = 'Proveedor no valido.'
     INVALID_REFRESH_TOKEN = 'refresh token no válido.'
     NO_INFORMATION = 'Información no encontrada.'
     REFRESH_TOKEN_FAILED = 'No se puedo actulizar el token. Asegúrese de enviar el refresh token correcto.'
 
-    ERROR_ADD_CAREER = "Ha ocurrido un error al crear la carrera."
-    ERROR_NOT_FOUND_CAREER = "Ha ocurrido un error al obtener la información de la cerrera."
+    ERROR_ADD_CAREER = 'Ha ocurrido un error al crear la carrera.'
+    ERROR_NOT_FOUND_CAREER = 'Ha ocurrido un error al obtener la información de la cerrera.'
 
-    ERROR_ADD_USER = "Ha ocurrido un error al crear el usuario."
-    ERROR_GET_USER = "Ha ocorrido un error al obtener la información del usuario."
-    ERROR_UPDATE_USER = "Ha ocorrido un error al actualizar la información del usuario."
-    ERROR_UPDATE_USER_CAREER = "Ha ocorrido un error al actualizar la carrera del usuario."
+    ERROR_ADD_USER = 'Ha ocurrido un error al crear el usuario.'
+    ERROR_GET_USER = 'Ha ocorrido un error al obtener la información del usuario.'
+    ERROR_UPDATE_USER = 'Ha ocorrido un error al actualizar la información del usuario.'
+    ERROR_UPDATE_USER_CAREER = 'Ha ocorrido un error al actualizar la carrera del usuario.'
+
+    QR_ERROR_CREATE = 'Ha ocurrido un error al generar el código QR.'
+    QR_ERROR_READ = 'Ha ocurrido un error al leer el código QR.'
+    QR_VALIDATION_VALUE = 'Información no enviada.'
+
+    DOMAIN_ERROR_CREATE = 'Ha ocurrido un error al crear el dominio.'
+    DOMAIN_ERROR_GET = 'Ha ocorrido un error al obtener la información del dominio.'
+    DOMAIN_VALIDATION_VALUE = 'Dominio no valido.'
 
 
 @unique

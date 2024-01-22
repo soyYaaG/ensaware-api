@@ -44,3 +44,12 @@ class PermissionChecker:
         else:
             raise EnsawareException(
                 status.HTTP_401_UNAUTHORIZED, TypeMessage.VALIDATION.value, Message.INVALID_AUTH.value)
+
+
+def string_key_value(value: dict):
+    params: str = ''
+
+    for key, value in value.items():
+        params += f'&{key}={value}'
+
+    return params

@@ -129,7 +129,7 @@ async def update_user(
     db: Session = get_db
 ):
     '''
-    Actualizar la carrera del usuario que inicio sesión.
+    Actualizar la carrera del usuario.
 
      ### Return
     - `UserRead` Respuesta con la información del usuario

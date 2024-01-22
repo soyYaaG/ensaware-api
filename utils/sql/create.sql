@@ -182,3 +182,14 @@ CREATE TABLE IF NOT EXISTS library_user (
     CONSTRAINT fk_library_user_library_id FOREIGN KEY (library_id) REFERENCES library (id),
     CONSTRAINT fk_library_user_user_id FOREIGN KEY (user_id) REFERENCES user (id)
 );
+-- ----------------------
+-- Create domain table --
+-- ----------------------
+CREATE TABLE IF NOT EXISTS domain (
+    id VARCHAR(60) NOT NULL DEFAULT (UUID()),
+    value VARCHAR(100) NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified TIMESTAMP NULL,
+    CONSTRAINT pk_domain_id PRIMARY KEY (id),
+    CONSTRAINT unq_domain_value UNIQUE (value)
+);

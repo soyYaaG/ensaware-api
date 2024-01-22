@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     cors_methods: str = os.getenv('CORS_METHODS')
 
     callback_url_front: str = os.getenv('CALLBACK_URL_FRONT')
+    callback_url_front_error: str = os.getenv('CALLBACK_URL_FRONT_ERROR')
 
 
 class DefaultValuesModels:

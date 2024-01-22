@@ -6,8 +6,10 @@ from fastapi_pagination import add_pagination
 
 from authorization.v1.router import router as authorization
 from career.v1.router import router as career
+from domain.v1.router import router as domain
 from permission.v1.router import router as permission
 from profiles.v1.router import router as profile
+from qr.v1.router import router as qr
 from user.v1.router import router as user
 
 from utils.exception.ensaware import EnsawareException, EnsawareExceptionBase, EnsawareExceptionHandler
@@ -65,6 +67,12 @@ app.include_router(
 )
 
 app.include_router(
+    domain,
+    prefix='/v1/domain',
+    tags=['v1 - domain']
+)
+
+app.include_router(
     permission,
     prefix='/v1/permission',
     tags=['v1 - permission']
@@ -74,6 +82,12 @@ app.include_router(
     profile,
     prefix='/v1/profile',
     tags=['v1 - profile']
+)
+
+app.include_router(
+    qr,
+    prefix='/v1/qr',
+    tags=['v1 - qr']
 )
 
 app.include_router(

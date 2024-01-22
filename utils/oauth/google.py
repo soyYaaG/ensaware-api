@@ -6,6 +6,7 @@ import requests as api_requests
 from sqlalchemy.orm import Session
 
 from authorization.v1.schema import Token
+from domain.v1.router import get_domain
 from profiles import ProfileType
 from profiles.v1.crud import DBProfile
 from profiles.v1.schema import Profile
@@ -15,7 +16,7 @@ from utils.oauth.security import Security
 from user.v1.crud import DBUser
 from user.v1.schema import User, UserBase
 
-from . import OAuth20
+from . import OAuth20, string_key_value
 
 
 SCOPES = [
@@ -116,6 +117,13 @@ class GoogleProvider(OAuth20):
 
             token, get_user = await self.__get_token(credentials.id_token)
 
+            email: str = token.get('email', None)
+            domain = email.split('@')[1]
+            try:
+                await get_domain(domain)
+            except:
+                return f'{self.__settings.callback_url_front_error}?error=domain'
+
             if not get_user:
                 get_user = await self.__create_user(token, credentials)
 
@@ -125,17 +133,11 @@ class GoogleProvider(OAuth20):
             get_user: User = await self.__db_user.update_user_id(get_user.id, get_user)
 
             token_data: Token = self.__security.jwt_encode(get_user)
-            params: str = ''
-
-            for key, value in token_data.model_dump().items():
-                params += f'&{key}={value}'
+            params: str = string_key_value(token_data.model_dump())
 
             return f'{self.__settings.callback_url_front}?project=ensaware{params}'
-        except EnsawareException as enw:
-            raise enw
-        except Exception as ex:
-            raise EnsawareException(
-                status.HTTP_400_BAD_REQUEST, TypeMessage.ERROR.value, str(ex))
+        except:
+            return f'{self.__settings.callback_url_front_error}?error=user'
 
 
     async def refresh_token(self, token: str) -> Token:
