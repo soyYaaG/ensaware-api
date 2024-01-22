@@ -6,6 +6,7 @@ from authorization.v1.schema import TokenData
 from user.v1.crud import DBUser
 from utils.database import get_db
 from utils.oauth.security import Security
+from utils.quick_response_code import QRType, set_qr_type
 from utils.quick_response_code.qr import QRCode
 
 
@@ -33,7 +34,7 @@ async def get_qr_user(
     Obtener el código QR del usuario que inicio sesión.
     '''
     user = await db_user(db).get_user_id(token.sub, True)
-    result = QRCode(user.model_dump())
+    result = QRCode(set_qr_type(QRType.USER, user.id))
     img = result.create()
 
     return Response(content=img, media_type='image/png')
@@ -52,7 +53,7 @@ async def get_qr_user_id(
     Obtener el código QR del usuario.
     '''
     user = await db_user(db).get_user_id(id, True)
-    result = QRCode(user.model_dump())
+    result = QRCode(set_qr_type(QRType.USER, user.id))
     img = result.create()
 
     return Response(content=img, media_type='image/png')

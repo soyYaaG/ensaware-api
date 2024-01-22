@@ -40,7 +40,7 @@ class QRCode(CreateQuickResponseCode, ReadQuickResponseCode):
         filename = f'{str(uuid4())}.png'
 
         try:
-            qr = Image.open(BytesIO(image)).convert('L')
+            qr = Image.open(BytesIO(image))
             qr.save(filename)
             data = cv2.imread(filename)
 
@@ -49,8 +49,7 @@ class QRCode(CreateQuickResponseCode, ReadQuickResponseCode):
             data: dict = json.loads(decrypt)
 
             return data
-        except Exception as ex:
-            print(ex)
+        except:
             raise EnsawareException(status.HTTP_500_INTERNAL_SERVER_ERROR, TypeMessage.ERROR.value, Message.QR_ERROR_READ.value)
         finally:
             if path.exists(filename):
